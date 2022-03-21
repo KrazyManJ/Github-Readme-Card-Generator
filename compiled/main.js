@@ -1,8 +1,8 @@
 "use strict";
 var link = "https://github-readme-stats.vercel.app/api?";
 window.onload = () => {
-    var input = document.querySelector("form");
-    var preview = document.getElementById("preview");
+    const input = document.querySelector("form");
+    const preview = document.getElementById("preview");
     document.querySelectorAll('form > input:not([name="username"])').forEach(f => {
         f.setAttribute("changed", "false");
         f.addEventListener("input", () => {
@@ -13,15 +13,10 @@ window.onload = () => {
     updatePreview();
     document.getElementById("input").addEventListener("change", () => {
         updatePreview();
-        // Code for adding "are you sure to leave?"
-        //
-        // window.onbeforeunload = (e) => {
-        // 	e = e || window.event
-        // 	var message = null
-        // 	if (e) { e.returnValue = message }
-        // 	return message
-        // }
     });
+    /**
+     * Updates preview image
+     */
     function updatePreview() {
         var params = [];
         Array.from(input.elements).forEach(e => {
@@ -43,5 +38,18 @@ window.onload = () => {
                 }
         });
         preview.setAttribute("src", link + params.join("&"));
+    }
+    /**
+     * Register alert window upon leaving page
+     */
+    function registerSaveCheck() {
+        window.onbeforeunload = (e) => {
+            e = e || window.event;
+            var message = null;
+            if (e) {
+                e.returnValue = message;
+            }
+            return message;
+        };
     }
 };
