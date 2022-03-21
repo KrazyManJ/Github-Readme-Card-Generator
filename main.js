@@ -1,5 +1,7 @@
 "use strict";
+
 var link = "https://github-readme-stats.vercel.app/api?";
+
 window.onload = () => {
     const input = document.querySelector("form");
     const preview = document.getElementById("preview");
