@@ -29,10 +29,7 @@ window.onload = () => {
 
 
 	function updatePreview() {
-		
 		var params:string[] = [];
-
-	
 		Array.from(input.elements).forEach(e => {
 			if (e.getAttribute("changed") != "false") switch (e.getAttribute("type")) {
 				case "color": 
@@ -49,7 +46,7 @@ window.onload = () => {
 					break
 				
 			}
-		});
+		})
 		preview.setAttribute("src",link+params.join("&"))
 	}
 }
