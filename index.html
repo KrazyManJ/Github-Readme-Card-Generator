@@ -1,22 +1,33 @@
 <!-- https://github.com/anuraghazra/github-readme-stats -->
 
 <!DOCTYPE html>
-<html >
+<html lang="en">
 	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Github Card Generator</title>
 		<link rel="icon" href="src/icon.png">
 		<link rel="stylesheet" href="style.css">
 		<script src="main.js"></script>
 	</head>
 	<body>
-		<img id="preview" src="">
-		<form id="input" name="input">
-			Username: <input type="text" name="username" placeholder="krazymanj">
-			<br>Title color: <input type="color" name="title_color" placeholder="#2f80ed">
-			<br>Text color: <input type="color" name="text_color" placeholder="#4c71f2">
-			<br>Icon color: <input type="color" name="icon_color" placeholder="#434d58">
-			<br>Border color: <input type="color" name="border_color" placeholder="#fffefe">
-			<br>Background color: <input type="color" name="background_color" placeholder="#e4e2e2">
+		<img id=preview>
+		<form id=input name=input>
+			<h2>Global options</h2>
+			Username: <input type=text name=username value=krazymanj >
+			<br>Title color: <input type=color name=title_color value=#2f80ed >
+			<br>Text color: <input type=color name=text_color value=#434d58 >
+			<br>Icon color: <input type=color name=icon_color value=#4c71f2 >
+			<br>Background color: <input type=color name=bg_color value=#fffefe >
+
+			<br>Hide border: <input type=checkbox name=hide_border >
+			<br>Border color: <input type=color name=border_color value=#e4e2e2 >
+
+			<br>Theme: <input type=text name=theme>
+			<br>Cache seconds: <input type=number name=cache_seconds min=1800 max=86400 step=1>s
+			<br>Locale: <input type=text name=locale >
+			<br>Border radius: <input type=number name=border_radius min=0 step=1>px
 		</form>
 	</body>
 </html>
