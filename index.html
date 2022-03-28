@@ -16,10 +16,20 @@
 		<script src="main.js"></script>
 	</head>
 	<body>
-		<img id=preview>
-		<form id=input name=input>
-			<h2>Global options</h2>
-			Username: <input type=text name=username value=krazymanj >
+		Card type: <select id="card_type">
+			<option name="stats" value="">Stats</option>
+			<option name="pin" value="/pin/">Extra repository pin</option>
+			<option name="top-langs" value="/top-langs/">Top Languages</option>
+		</select>
+		<br>Username: <input type=text name=username value=krazymanj id=username>
+
+		<h1>Exclusive options</h1>
+		<form id=exclusive_options>
+			
+		</form>
+
+		<h1>Global options</h1>
+		<form id=general_options name=input>
 			<br>Title color: <input type=color name=title_color value=#2f80ed >
 			<br>Text color: <input type=color name=text_color value=#434d58 >
 			<br>Icon color: <input type=color name=icon_color value=#4c71f2 >
@@ -33,5 +43,7 @@
 			<br>Locale: <input type=text name=locale >
 			<br>Border radius: <input type=number name=border_radius min=0 step=1>px
 		</form>
+
+		<h1>Preview</h1><img id=preview>
 	</body>
 </html>
