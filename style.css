@@ -2,5 +2,35 @@
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 html, body {
-	margin: 40px;
+	display: grid;
+	place-items: center;
+	margin: 0;
+}
+input{
+	margin-bottom: 5px;
+}
+textarea{
+	width: 700px;
+	height: 100px;
+	resize: none;
+}
+h1{
+	text-align: center;
+	margin: 0;
+}
+#wrapper{
+	display: grid;
+	grid-template-columns: repeat(2,50%);
+}
+#upper-wrapper,#preview-wrapper,#link-wrapper {
+	grid-column: span 2;
+}
+@media only screen and (max-width: 600px) {
+	#wrapper{
+		display: grid;
+		grid-template-columns: repeat(1,75%);
+	}
+	#upper-wrapper,#preview-wrapper,#link-wrapper {
+		grid-column: span 1;
+	}
 }

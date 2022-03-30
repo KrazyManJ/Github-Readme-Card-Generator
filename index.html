@@ -16,34 +16,49 @@
 		<script src="main.js"></script>
 	</head>
 	<body>
-		Card type: <select id="card_type">
-			<option name="stats" value="">Stats</option>
-			<option name="pin" value="/pin/">Extra repository pin</option>
-			<option name="top-langs" value="/top-langs/">Top Languages</option>
-		</select>
-		<br>Username: <input type=text name=username value=krazymanj id=username>
-
-		<h1>Exclusive options</h1>
-		<form id=exclusive_options>
+		<div id=wrapper>
+			<div id=upper-wrapper>
+				Card type: <select id="card_type">
+					<option name="stats" value="">Stats</option>
+					<option name="pin" value="/pin/">Extra repository pin</option>
+					<option name="top-langs" value="/top-langs/">Top Languages</option>
+				</select>
+				<br>Username: <input type=text name=username value=krazymanj id=username>
+				Repository: <input type=text id=repo name=repo value=KrazyHackerTypingGame disabled>
+			</div>
 			
-		</form>
+			<div id=excl-opt-wrapper>
+				<h1>Exclusive options</h1>
+				<form id=exclusive_options></form>
+			</div>
 
-		<h1>Global options</h1>
-		<form id=general_options name=input>
-			<br>Title color: <input type=color name=title_color value=#2f80ed >
-			<br>Text color: <input type=color name=text_color value=#434d58 >
-			<br>Icon color: <input type=color name=icon_color value=#4c71f2 >
-			<br>Background color: <input type=color name=bg_color value=#fffefe >
+			<div id=gen-opt-wrapper>
+				<h1>Global options</h1>
+				<form id=general_options name=input>
+					Title color: <input type=color name=title_color value=#2f80ed >
+					<br>Text color: <input type=color name=text_color value=#434d58 >
+					<br>Icon color: <input type=color name=icon_color value=#4c71f2 >
+					<br>Background color: <input type=color name=bg_color value=#fffefe >
 
-			<br>Hide border: <input type=checkbox name=hide_border >
-			<br>Border color: <input type=color name=border_color value=#e4e2e2 >
+					<br>Hide border: <input type=checkbox name=hide_border >
+					<br>Border color: <input type=color name=border_color value=#e4e2e2 >
 
-			<br>Theme: <input type=text name=theme>
-			<br>Cache seconds: <input type=number name=cache_seconds min=1800 max=86400 step=1>s
-			<br>Locale: <input type=text name=locale >
-			<br>Border radius: <input type=number name=border_radius min=0 step=1>px
-		</form>
+					<br>Theme: <input type=text name=theme>
+					<br>Cache seconds: <input type=number name=cache_seconds min=1800 max=86400 step=1>s
+					<br>Locale: <input type=text name=locale >
+					<br>Border radius: <input type=number name=border_radius min=0 step=1>px
+				</form>
+			</div>			
 
-		<h1>Preview</h1><img id=preview>
+			
+			<div id="preview-wrapper">
+				<h1>Preview</h1>
+				<img id=preview>
+			</div>
+			<div id="link-wrapper">
+				<h1>Link</h1>
+				<textarea id=link></textarea>
+			</div>
+		</div>
 	</body>
 </html>

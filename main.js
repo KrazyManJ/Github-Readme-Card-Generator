@@ -1,104 +1,113 @@
 "use strict";
-
-var link = "https://github-readme-stats.vercel.app/api";
-
+const domain = "https://github-readme-stats.vercel.app/api";
+var link = domain;
+var gen_opt_meta = {};
+var exl_opt_meta = {};
+const options = {
+    "stats": `
+	Hide items: <input type=text name=hide >  
+	<br>Hide title: <input type=checkbox name=hide_title >  
+	<br>Hide rank: <input type=checkbox name=hide_rank >  
+	<br>Show icons: <input type=checkbox name=show_icons >  
+	<br>Include all commits: <input type=checkbox name=include_all_commits > 
+	<br>Count private: <input type=checkbox name=count_private > 
+	<br>Line height: <input type=number name=line_height > 
+	<br>Custom title: <input type=text name=custom_title > 
+	<br>Disable animations: <input type=checkbox name=disable_animations > 
+	`,
+    "pin": `
+	There are no extra options!
+	`,
+    "top-langs": `
+	Hide languages: <input type=text name=hide >
+	<br>Hide title: <input type=checkbox name=hide_title >
+	<br>Layout:
+	<select id="layout" name="layout">
+		<option value="default" >Default</option>
+		<option value="compact" >Compact</option>
+	</select>
+	<br>Card width: <input type=text name=card_width >
+	<br>Languages count: <input type=number name=langs_count value=5 min=1 max=10 step=1>
+	<br>Exclude repositories: <input type=text name=exclude_repo >
+	<br>Custom title: <input type=text name=custom_title >
+	`,
+};
 window.onload = () => {
-	const preview = document.getElementById("preview")
-	const cardSelector = document.getElementById("card_type")
-    
-	load()
-
-	function load() {
-		document.querySelectorAll('form > input:not([name="username"])').forEach(f => {
-			f.setAttribute("changed", "false");
-			f.addEventListener("input", () => {
-				if (f.getAttribute("changed") === "false") f.setAttribute("changed", "true");
-			});
-		});
-		updateExclusiveOptions()
-		cardSelector.onchange = () => updateExclusiveOptions()
-
-
-		updatePreview();
-		document.querySelectorAll("input, select").forEach(e => {
-			e.addEventListener("change", () => updatePreview() );
-		})
-		document.getElementById("exclusive_options").onchange = () => updatePreview()
-	}
-
-	function updateExclusiveOptions() {
-		var exl_html
-			switch (cardSelector.value) {
-				case "":
-					exl_html = `
-					Hide items: <input type=text name=hide >  
-					<br>Hide title: <input type=checkbox name=hide_title >  
-					<br>Hide rank: <input type=checkbox name=hide_rank >  
-					<br>Show icons: <input type=checkbox name=show_icons >  
-					<br>Include all commits: <input type=checkbox name=include_all_commits > 
-					<br>Count private: <input type=checkbox name=count_private > 
-					<br>Line height: <input type=number name=line_height > 
-					<br>Custom title: <input type=text name=custom_title > 
-					<br>Disable animations: <input type=checkbox name=disable_animations > 
-					`
-					break;
-				case "/pin/":
-					exl_html = `
-						Repository: <input type=text name=repo value=KrazyHackerTypingGame >
-					`
-					break;
-				case "/top-langs/":
-					exl_html = `
-					Hide languages: <input type=text name=hide >
-					<br>Hide title: <input type=checkbox name=hide_title >
-					<br>Layout:
-					<select id="card_type">
-						<option name="default" >Default</option>
-						<option name="compact" >Compact</option>
-					</select>
-					<br>Card width: <input type=text name=card_width >
-					<br>Languages count: <input type=number name=langs_count value=5 min=1 max=10 step=1>
-					<br>Exclude repositories: <input type=text name=exclude_repo >
-					<br>Custom title: <input type=text name=custom_title >
-					`
-					break;
-			}
-			document.getElementById("exclusive_options").innerHTML = exl_html
-	}
-
-	function updatePreview() {
-		var params = [];
-		var type = document.getElementById("card_type").value
-        document.querySelectorAll("input").forEach(e => {
-            if (e.getAttribute("changed") != "false")
-                switch (e.getAttribute("type")) {
-                    case "color":
-                        params.push(`${e.getAttribute("name")}=${e.value.replace("#", "")}`);
-                        break;
-                    case "checkbox":
-                        params.push(`${e.name}=${e.checked ? "true" : "false"}`);
-                        break;
-                    case "text":
-                        if (e.value.length > 0)
-                            params.push(`${e.name}=${escape(e.value)}`);
-                        break;
-                    default:
-                        params.push(`${e.name}=${escape(e.value)}`);
-                        break;
-                }
-		});
-		console.log("updated")
-        preview.setAttribute("src", link + type + "?" + params.join("&"));
+    const repo_name_sel = document.querySelector("input#repo");
+    var repo_name = repo_name_sel.value;
+    repo_name_sel.addEventListener("change", () => {
+        repo_name = repo_name_sel.value;
+        updatePreview();
+    });
+    const card_type_sel = document.querySelector("select#card_type");
+    var card_type = card_type_sel.value;
+    card_type_sel.addEventListener("change", () => {
+        exl_opt_meta = {};
+        if (selectValueName(card_type_sel) == "pin")
+            repo_name_sel.disabled = false;
+        else {
+            repo_name_sel.disabled = true;
+        }
+        updateOptions();
+        card_type = card_type_sel.value;
+        updatePreview();
+    });
+    const username_sel = document.querySelector("input#username");
+    var username = username_sel.value;
+    username_sel.addEventListener("change", () => {
+        username = username_sel.value;
+        updatePreview();
+    });
+    const gen_options = document.querySelectorAll(`
+		form#general_options input,
+		form#general_options select
+	`);
+    const preview = document.getElementById("preview");
+    gen_options.forEach(e => e.addEventListener("change", () => {
+        if (e instanceof HTMLInputElement)
+            gen_opt_meta[e.name] = formatValue(e);
+        else if (e instanceof HTMLSelectElement)
+            gen_opt_meta[e.name] = e.value;
+        updatePreview();
+    }));
+    const link_win = document.querySelector("textarea#link");
+    updatePreview();
+    updateOptions();
+    function updatePreview() {
+        var args = repo_name_sel.disabled ? "" : "&repo=" + repo_name;
+        for (var key in gen_opt_meta)
+            args += "&" + key + "=" + gen_opt_meta[key];
+        for (var key in exl_opt_meta)
+            args += "&" + key + "=" + exl_opt_meta[key];
+        var l_link = link + card_type + "?username=" + username + args;
+        preview.setAttribute("src", l_link);
+        link_win.value = l_link;
     }
-
-    function registerSaveCheck() {
-        window.onbeforeunload = (e) => {
-            e = e || window.event;
-            var message = null;
-            if (e) {
-                e.returnValue = message;
-            }
-            return message;
-        };
+    function formatValue(e) {
+        switch (e.type) {
+            case "color": return e.value.replace("#", "");
+            case "checkbox": return e.checked;
+            default: return e.value;
+        }
+    }
+    function selectValueName(e) {
+        var val = e.selectedOptions[0].getAttribute("name");
+        return val !== null ? val : "";
+    }
+    function updateOptions() {
+        document.getElementById("exclusive_options").innerHTML = options[selectValueName(card_type_sel)];
+        const exl_options = document.querySelectorAll(`
+			form#exclusive_options input,
+			form#exclusive_options select
+		`);
+        console.log(exl_options);
+        exl_options.forEach(e => e.addEventListener("change", () => {
+            console.log("skadu");
+            if (e instanceof HTMLInputElement)
+                exl_opt_meta[e.name] = formatValue(e);
+            else if (e instanceof HTMLSelectElement)
+                exl_opt_meta[e.name] = e.value;
+            updatePreview();
+        }));
     }
 };
