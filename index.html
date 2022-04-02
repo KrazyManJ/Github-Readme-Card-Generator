@@ -33,7 +33,7 @@
 					</div>
 					<div>
 						<label for="auto-update">Auto update?</label>
-						<input type="checkbox" name="auto-update" id="auto-update">
+						<input type="checkbox" name="auto-update" id="auto-update" checked >
 					</div>
 				</div>
 			</div>
@@ -78,7 +78,7 @@
 					</div>
 					<div>
 						<label for="border_radius">Border radius:</label>
-						<input type=number name=border_radius min=0 step=1 id=border_radius >px
+						<input type=number name=border_radius min=0 step=1 id=border_radius > px
 					</div>
 				</div>
 			</div>
@@ -88,9 +88,8 @@
 			</div>
 			<div class="prev">
 				<h1>Preview</h1>
-				<div id=img_container>
-					<img id=preview>
-				</div>
+				<div id=img_container><img id=preview></div>
+				<div hidden id=update_container><button id=update_button>Update</button></div>
 			</div>
 			<div class="link">
 				<h1>Link</h1>

@@ -6,24 +6,28 @@
 
 *{
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	user-select: none;
 }
 
 :root{
-	--ct-margin: 50px;
+	--ct-margin: 3%;
 
-	--main-outline-color: rgb(107, 107, 107); 
-	--main-outline-width: 5px;
+	--main-outline-color: rgb(209, 209, 209); 
+	--main-outline-width: 1px
 }
 
 html, body {
 	width: 100%;
 	margin: 0;
+	touch-action: none;
 }
 
 main {
 	background-color: var(--main-outline-color);
 	margin: var(--ct-margin) var(--ct-margin) 0 var(--ct-margin);
 	width: calc(100% - var(--ct-margin) * 2);
+	position: relative;
+	height: calc(100% - var(--ct-margin));
 
 	border-radius: 40px;
 	overflow: hidden;
@@ -65,7 +69,7 @@ label{
 	font-weight: bold;
 }
 
-select:focus, input:focus{
+select:focus, input:focus, textarea:focus{
 	outline: none;
 }
 
@@ -112,4 +116,17 @@ main > img {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%) scale(1.8);
+}
+
+@media screen and (max-width: 900px) {
+	main {
+		grid-template-columns: 100%;
+		grid-template-areas: 
+		"type"
+		"gen"
+		"exl"
+		"prev"
+		"link"
+		;
+	}
 }

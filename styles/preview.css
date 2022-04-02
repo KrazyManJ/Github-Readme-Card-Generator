@@ -3,7 +3,7 @@
 }
 .prev > div#img_container {
 	width: 100%;
-	height: 90%;
+	height: 83%;
 	display: grid;
 	place-items: center;
 }
@@ -17,4 +17,14 @@
 }
 .prev > div#img_container > img.top-langs {
 	height: 100%;
+}
+.prev > div#update_container{
+	display: grid;
+	place-items: center;
+}
+.prev > div#update_container[hidden]{
+	display: none;
+}
+.prev > div#update_container > button#update_button {
+	width: 150px;
 }
