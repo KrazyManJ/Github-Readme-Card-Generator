@@ -43,6 +43,10 @@ main > div > div > *:not(:last-child){
 	display: block;
 	margin-bottom: 5px;
 }
+main > div * {
+	position: relative;
+	z-index: 10;
+}
 
 main > * {
 	box-sizing: border-box;
@@ -98,4 +102,14 @@ input[type="text"]{
 }
 input[type="number"]{
 	width: 50px;
+}
+
+main > img {
+	background: transparent;
+	z-index: 0;
+	opacity: 0.1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(1.8);
 }
