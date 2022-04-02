@@ -16,49 +16,87 @@
 		<script src="main.js"></script>
 	</head>
 	<body>
-		<div id=wrapper>
-			<div id=upper-wrapper>
-				Card type: <select id="card_type">
-					<option name="stats" value="">Stats</option>
-					<option name="pin" value="/pin/">Extra repository pin</option>
-					<option name="top-langs" value="/top-langs/">Top Languages</option>
-				</select>
-				<br>Username: <input type=text name=username value=krazymanj id=username>
-				Repository: <input type=text id=repo name=repo value=KrazyHackerTypingGame disabled>
+		<main>
+			<div class="type">
+				<h1>Main settings</h1>
+				<div>
+					<div>
+						<label for="card_type">Card type:</label><select name="card_type" id="card_type">
+							<option value="stats">Stats</option>
+							<option value="pin">Extra repository pin</option>
+							<option value="top-langs">Top Languages</option>
+						</select>
+					</div>
+					<div>
+						<label for=username>Username:</label>
+						<input type=text id=username name=username value=anuraghazra>
+					</div>
+					<div>
+						<label for="auto-update">Auto update?</label>
+						<input type="checkbox" name="auto-update" id="auto-update">
+					</div>
+				</div>
 			</div>
-			
-			<div id=excl-opt-wrapper>
-				<h1>Exclusive options</h1>
-				<form id=exclusive_options></form>
+			<div class="gen">
+				<h1>General card options</h1>
+				<div>
+					<div>
+						<label for=title_color >Title color:</label>
+						<input type=color name=title_color value=#2f80ed id=title_color>
+					</div>
+					<div>
+						<label for=text_color>Text color:</label>
+						<input type=color name=text_color value=#434d58 id=text_color >
+					</div>
+					<div>
+						<label for="icon_color">Icon color:</label>
+						<input type=color name=icon_color value=#4c71f2 id=icon_color >
+					</div>
+					<div>
+						<label for="bg_color">Background color:</label>
+						<input type=color name=bg_color value=#fffefe id=bg_color >
+					</div>
+					<div>
+						<label for="hide_border">Hide border:</label>
+						<input type=checkbox name=hide_border id=hide_border >
+					</div>
+					<div>
+						<label for="border_color">Border color:</label>
+						<input type=color name=border_color value=#e4e2e2 id=border_color >
+					</div>
+					<div>
+						<label for="theme">Theme:</label>
+						<input type=text name=theme id=theme >
+					</div>
+					<div>
+						<label for="cache_seconds">Cache seconds:</label>
+						<input type=number name=cache_seconds min=1800 max=86400 step=1 id=cache_seconds > s
+					</div>
+					<div>
+						<label for="locale">Locale:</label>
+						<input type=text name=locale id=locale >
+					</div>
+					<div>
+						<label for="border_radius">Border radius:</label>
+						<input type=number name=border_radius min=0 step=1 id=border_radius >px
+					</div>
+				</div>
 			</div>
-
-			<div id=gen-opt-wrapper>
-				<h1>Global options</h1>
-				<form id=general_options name=input>
-					Title color: <input type=color name=title_color value=#2f80ed >
-					<br>Text color: <input type=color name=text_color value=#434d58 >
-					<br>Icon color: <input type=color name=icon_color value=#4c71f2 >
-					<br>Background color: <input type=color name=bg_color value=#fffefe >
-
-					<br>Hide border: <input type=checkbox name=hide_border >
-					<br>Border color: <input type=color name=border_color value=#e4e2e2 >
-
-					<br>Theme: <input type=text name=theme>
-					<br>Cache seconds: <input type=number name=cache_seconds min=1800 max=86400 step=1>s
-					<br>Locale: <input type=text name=locale >
-					<br>Border radius: <input type=number name=border_radius min=0 step=1>px
-				</form>
-			</div>			
-
-			
-			<div id="preview-wrapper">
+			<div class="exl">
+				<h1>Exclusive card options</h1>
+				<div id=exl_opt_container></div>
+			</div>
+			<div class="prev">
 				<h1>Preview</h1>
-				<img id=preview>
+				<div id=img_container>
+					<img id=preview>
+				</div>
 			</div>
-			<div id="link-wrapper">
+			<div class="link">
 				<h1>Link</h1>
-				<textarea id=link></textarea>
+				<textarea name="link" id="link">https://github-readme-stats.vercel.app/api?username=anuraghazra</textarea>
+				<button id="copy_button">Copy</button>
 			</div>
-		</div>
+		</main>
 	</body>
 </html>

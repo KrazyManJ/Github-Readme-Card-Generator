@@ -1,0 +1,20 @@
+.prev { 
+	grid-area: prev; 
+}
+.prev > div#img_container {
+	width: 100%;
+	height: 90%;
+	display: grid;
+	place-items: center;
+}
+.prev > div#img_container > img {
+	max-width: 100%;
+	max-height: 100%;
+}
+.prev > div#img_container > img.stats,
+.prev > div#img_container > img.pin {
+	width: 100%;
+}
+.prev > div#img_container > img.top-langs {
+	height: 100%;
+}

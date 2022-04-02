@@ -1,113 +1,149 @@
-"use strict";
-const domain = "https://github-readme-stats.vercel.app/api";
-var link = domain;
-var gen_opt_meta = {};
-var exl_opt_meta = {};
-const options = {
-    "stats": `
-	Hide items: <input type=text name=hide >  
-	<br>Hide title: <input type=checkbox name=hide_title >  
-	<br>Hide rank: <input type=checkbox name=hide_rank >  
-	<br>Show icons: <input type=checkbox name=show_icons >  
-	<br>Include all commits: <input type=checkbox name=include_all_commits > 
-	<br>Count private: <input type=checkbox name=count_private > 
-	<br>Line height: <input type=number name=line_height > 
-	<br>Custom title: <input type=text name=custom_title > 
-	<br>Disable animations: <input type=checkbox name=disable_animations > 
-	`,
-    "pin": `
-	There are no extra options!
-	`,
-    "top-langs": `
-	Hide languages: <input type=text name=hide >
-	<br>Hide title: <input type=checkbox name=hide_title >
-	<br>Layout:
-	<select id="layout" name="layout">
-		<option value="default" >Default</option>
-		<option value="compact" >Compact</option>
-	</select>
-	<br>Card width: <input type=text name=card_width >
-	<br>Languages count: <input type=number name=langs_count value=5 min=1 max=10 step=1>
-	<br>Exclude repositories: <input type=text name=exclude_repo >
-	<br>Custom title: <input type=text name=custom_title >
-	`,
-};
+const card_type_suffix = {
+	"stats": "",
+	"pin": "/pin/",
+	"top-langs": "/top-langs/"
+}
+
+const exclusive_options = {
+	"stats": [
+		wrapInput("text", "hide", "Hide items:"),
+		wrapInput("checkbox", "hide_title", "Hide title:"),
+		wrapInput("checkbox", "hide_rank", "Hide rank:"),
+		wrapInput("checkbox", "show_icons", "Show icons:"),
+		wrapInput("checkbox", "include_all_commits", "Include all comits:"),
+		wrapInput("checkbox", "count_private", "Count private:"),
+		wrapInput("number", "line_height", "Line height:"),
+		wrapInput("text", "custom_title", "Custom title:"),
+		wrapInput("checkbox", "disable_animations", "Disable animations:")
+	],	
+	"pin": [
+		wrapInput("text", "repo", "Repository:", "github-readme-stats")
+	],
+	"top-langs": [
+		wrapInput("text", "hide", "Hide languages:"),
+		wrapSelect("layout","Layout:",[["default","Default"],["compact","Compact"]]),
+		wrapInput("number", "card_width", "Card width:"),
+		wrapInput("number", "langs_count", "Languages count:",5,"min=1 max=10 step=1"),
+		wrapInput("text", "exclude_repo", "Exclude repositories:"),
+		wrapInput("text", "custom_title", "Custom title:")
+	]
+}
+
+
+const domain = "https://github-readme-stats.vercel.app/api"
+
+
 window.onload = () => {
-    const repo_name_sel = document.querySelector("input#repo");
-    var repo_name = repo_name_sel.value;
-    repo_name_sel.addEventListener("change", () => {
-        repo_name = repo_name_sel.value;
-        updatePreview();
-    });
-    const card_type_sel = document.querySelector("select#card_type");
-    var card_type = card_type_sel.value;
-    card_type_sel.addEventListener("change", () => {
-        exl_opt_meta = {};
-        if (selectValueName(card_type_sel) == "pin")
-            repo_name_sel.disabled = false;
-        else {
-            repo_name_sel.disabled = true;
-        }
-        updateOptions();
-        card_type = card_type_sel.value;
-        updatePreview();
-    });
-    const username_sel = document.querySelector("input#username");
-    var username = username_sel.value;
-    username_sel.addEventListener("change", () => {
-        username = username_sel.value;
-        updatePreview();
-    });
-    const gen_options = document.querySelectorAll(`
-		form#general_options input,
-		form#general_options select
-	`);
-    const preview = document.getElementById("preview");
-    gen_options.forEach(e => e.addEventListener("change", () => {
-        if (e instanceof HTMLInputElement)
-            gen_opt_meta[e.name] = formatValue(e);
-        else if (e instanceof HTMLSelectElement)
-            gen_opt_meta[e.name] = e.value;
-        updatePreview();
-    }));
-    const link_win = document.querySelector("textarea#link");
-    updatePreview();
-    updateOptions();
-    function updatePreview() {
-        var args = repo_name_sel.disabled ? "" : "&repo=" + repo_name;
-        for (var key in gen_opt_meta)
-            args += "&" + key + "=" + gen_opt_meta[key];
-        for (var key in exl_opt_meta)
-            args += "&" + key + "=" + exl_opt_meta[key];
-        var l_link = link + card_type + "?username=" + username + args;
-        preview.setAttribute("src", l_link);
-        link_win.value = l_link;
-    }
-    function formatValue(e) {
-        switch (e.type) {
-            case "color": return e.value.replace("#", "");
-            case "checkbox": return e.checked;
-            default: return e.value;
-        }
-    }
-    function selectValueName(e) {
-        var val = e.selectedOptions[0].getAttribute("name");
-        return val !== null ? val : "";
-    }
-    function updateOptions() {
-        document.getElementById("exclusive_options").innerHTML = options[selectValueName(card_type_sel)];
-        const exl_options = document.querySelectorAll(`
-			form#exclusive_options input,
-			form#exclusive_options select
-		`);
-        console.log(exl_options);
-        exl_options.forEach(e => e.addEventListener("change", () => {
-            console.log("skadu");
-            if (e instanceof HTMLInputElement)
-                exl_opt_meta[e.name] = formatValue(e);
-            else if (e instanceof HTMLSelectElement)
-                exl_opt_meta[e.name] = e.value;
-            updatePreview();
-        }));
-    }
-};
+	var gen_data = {}
+	var exl_data = {}
+
+
+	//input containers
+	const link_container = document.getElementById("link")
+	const card_type_container = document.getElementById("card_type")
+	const username_container = document.getElementById("username")
+	const excl_opt_container = document.getElementById("exl_opt_container")
+	//other stuff
+	const preview_img = document.getElementById("preview")
+	const copy_button = document.getElementById("copy_button")
+
+
+	card_type_container.onchange = () => {
+		preview_img.className = card_type_container.value
+		updateExtraOptions()
+		updatePreview()
+	}
+
+	username_container.onchange = () => updatePreview()
+	document.querySelectorAll("input").forEach(i => {
+		if (!["username","repository","auto-update"].includes(i.name)) {
+			i.onchange = () => {
+				gen_data[i.name] = formatValue(i)
+				updatePreview()
+			}
+		}
+	})
+	copy_button.onclick = () => {
+		link_container.select()
+		document.execCommand('copy')
+	}
+	link_container.onchange = () => preview_img.src = link_container.value
+	
+	init()
+
+
+
+
+
+
+	function init() {
+		updatePreview()
+		updateExtraOptions()
+		preview_img.className = card_type_container.value
+	}
+
+
+
+
+
+
+	function updatePreview() {
+		var args = ""
+		for (var key in gen_data) args += "&"+key+"="+encodeURIComponent(gen_data[key])
+		for (var key in exl_data) args += "&"+key+"="+encodeURIComponent(exl_data[key])
+		link_container.value =
+			domain
+			+ card_type_suffix[card_type_container.value]
+			+ "?username="
+			+ username_container.value
+			+ args
+		preview_img.src = link_container.value
+	}
+	function updateExtraOptions() {
+		excl_opt_container.innerHTML = exclusive_options[card_type_container.value].join("")
+		exl_data = {}
+		if (card_type_container.value === "pin") exl_data["repo"] = "github-readme-stats"
+		excl_opt_container.querySelectorAll("input,select").forEach(i => {
+			i.onchange = () => {
+				exl_data[i.name] = formatValue(i)
+				updatePreview()
+			}
+		})
+	}
+
+	function formatValue(elem) {
+		if (elem.type === "color") return elem.value.replace("#", "")
+		else if (elem.type === "checkbox") return elem.checked
+		else return elem.value
+	}
+}
+
+function wrapInput(type, name, label, defaultvalue, options) {
+	return `
+		<div>
+		<label for=${name}>${label}</label>
+		<input type=${type} id=${name} name=${name} 
+		${defaultvalue !== undefined ? "value=" + defaultvalue : ""} 
+		${options !== undefined ? options : ""}
+		>
+	</div>
+	`
+}
+/**
+ * 
+ * @param {string} name 
+ * @param {string} label 
+ * @param {Array} values 
+ * @returns 
+ */
+function wrapSelect(name, label, values) {
+	var options = ""
+	values.forEach(v => {
+		options += `<option value=${v[0]}>${v[1]}</option>`
+	})
+	return `<div>
+		<label for=${name}>${label}</label><select name=${name} id=${name}>
+			${options}
+		</select>
+	</div>`
+}

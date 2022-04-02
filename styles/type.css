@@ -1,0 +1,7 @@
+.type { 
+	grid-area: type; 
+}
+.type > * {
+	display: block;
+	margin-bottom: 10px;
+}

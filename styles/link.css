@@ -1,0 +1,12 @@
+.link { 
+	grid-area: link; 
+}
+.link > textarea {
+	width: 100%;
+	resize: none;
+	font-size: 20px;
+	height: 100px;
+}
+#copy_button{
+	padding: 20px 50px;
+}

@@ -1,36 +1,101 @@
+@import url(styles/type.css);
+@import url(styles/general_opts.css);
+@import url(styles/exclusive_opts.css);
+@import url(styles/preview.css);
+@import url(styles/link.css);
+
 *{
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+:root{
+	--ct-margin: 50px;
+
+	--main-outline-color: rgb(107, 107, 107); 
+	--main-outline-width: 5px;
+}
+
 html, body {
-	display: grid;
-	place-items: center;
+	width: 100%;
 	margin: 0;
 }
-input{
+
+main {
+	background-color: var(--main-outline-color);
+	margin: var(--ct-margin) var(--ct-margin) 0 var(--ct-margin);
+	width: calc(100% - var(--ct-margin) * 2);
+
+	border-radius: 40px;
+	overflow: hidden;
+	border: var(--main-outline-width) solid var(--main-outline-color);
+
+	display: grid; 
+	grid-template-columns: 50% 50%; 
+	grid-template-rows: min-content min-content min-content; 
+	gap: var(--main-outline-width); 
+	grid-template-areas: 
+		"type prev"
+		"gen prev"
+		"exl link";
+}
+
+main > div > div > *:not(:last-child){
+	display: block;
 	margin-bottom: 5px;
 }
-textarea{
-	width: 700px;
-	height: 100px;
-	resize: none;
+
+main > * {
+	box-sizing: border-box;
+	padding: 10px 20px 20px;
+	background-color: rgb(233, 233, 233);
 }
+
 h1{
+	margin: 0 0 10px 0;
 	text-align: center;
-	margin: 0;
 }
-#wrapper{
-	display: grid;
-	grid-template-columns: repeat(2,50%);
+
+label{
+	white-space: pre-wrap;
+	margin-right: 10px;
+	font-weight: bold;
 }
-#upper-wrapper,#preview-wrapper,#link-wrapper {
-	grid-column: span 2;
+
+select:focus, input:focus{
+	outline: none;
 }
-@media only screen and (max-width: 600px) {
-	#wrapper{
-		display: grid;
-		grid-template-columns: repeat(1,75%);
-	}
-	#upper-wrapper,#preview-wrapper,#link-wrapper {
-		grid-column: span 1;
-	}
+
+select,input{
+	background-color: rgb(255, 255, 255);
+	border: 0px;
+   	outline: 0px;
+}
+
+input:disabled {
+	background-color: #ccc;
+}
+
+input[type="color"]{
+	-webkit-appearance: none;
+	height: 20px;
+	transform: translate(0,4px);
+	border: none;
+	border-color: transparent;
+	padding: 0;
+	cursor: pointer;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch{
+	border: 1px solid black;
+}
+
+input[type="text"]{
+	width: 150px;
+}
+input[type="number"]{
+	width: 50px;
 }
